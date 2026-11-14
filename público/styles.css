@@ -1,14 +1,20 @@
+/* =========================================================
+   PALETA DE COLORES - HOTEL BOUTIQUE
+   (Si quieres cambiar algún tono, solo edita estos códigos)
+   ========================================================= */
 :root {
-  --primary: #1e3a8a;
-  --primary-light: #2563eb;
-  --bg: #f1f5f9;
-  --card: #ffffff;
-  --text: #1e293b;
-  --muted: #64748b;
-  --border: #cbd5e1;
-  --success: #15803d;
-  --danger: #dc2626;
-  --warning: #b45309;
+  --primary: #16243b;       /* Azul noche: barra superior y títulos */
+  --primary-hover: #23385c; /* Azul noche más claro al pasar el mouse */
+  --accent: #c9a227;        /* Dorado hotel: detalles y pestaña activa */
+  --accent-soft: #f5ebd0;   /* Dorado muy suave para fondos */
+  --bg: #f6f4ee;            /* Marfil cálido: fondo general */
+  --card: #ffffff;          /* Blanco puro: tarjetas y tablas */
+  --text: #1e293b;          /* Gris oscuro: texto principal */
+  --muted: #64748b;         /* Gris medio: textos secundarios */
+  --border: #e5e0d5;        /* Borde arena suave */
+  --success: #0f766e;       /* Verde esmeralda: disponible / check-out */
+  --danger: #be123c;        /* Carmesí: ocupada / eliminar */
+  --warning: #b45309;       /* Ámbar oscuro: editar */
 }
 
 * {
@@ -30,12 +36,14 @@ body {
   padding: 0 16px;
 }
 
+/* Barra de navegación */
 .navbar {
   background: var(--primary);
-  color: #fff;
-  padding: 16px 0;
+  color: #ffffff;
+  padding: 18px 0;
   margin-bottom: 24px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  border-bottom: 4px solid var(--accent);
+  box-shadow: 0 3px 10px rgba(22, 36, 59, 0.18);
 }
 
 .nav-content {
@@ -47,12 +55,14 @@ body {
 }
 
 .brand h1 {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.3px;
+  color: #ffffff;
 }
 
 .brand span {
   font-size: 0.85rem;
-  opacity: 0.85;
+  color: var(--accent-soft);
 }
 
 .nav-links {
@@ -62,27 +72,35 @@ body {
 }
 
 .nav-btn {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-.nav-btn.active,
 .nav-btn:hover {
-  background: #fff;
-  color: var(--primary);
+  background: rgba(201, 162, 39, 0.28);
+  border-color: var(--accent);
 }
 
+.nav-btn.active {
+  background: var(--accent);
+  color: var(--primary);
+  border-color: var(--accent);
+}
+
+/* Tarjetas */
 .card {
   background: var(--card);
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 12px;
+  padding: 22px;
   margin-bottom: 20px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(22, 36, 59, 0.06);
 }
 
 h2, h3 {
@@ -98,24 +116,26 @@ h2, h3 {
   display: block;
 }
 
+/* Tarjetas de estadísticas en Inicio */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 14px;
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .stat-box {
-  background: var(--bg);
-  padding: 16px;
-  border-radius: 8px;
+  background: #faf8f3;
+  padding: 18px;
+  border-radius: 10px;
   text-align: center;
-  border-left: 4px solid var(--primary-light);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent);
 }
 
 .stat-num {
   display: block;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   font-weight: 700;
   color: var(--primary);
 }
@@ -123,8 +143,10 @@ h2, h3 {
 .stat-label {
   font-size: 0.85rem;
   color: var(--muted);
+  font-weight: 500;
 }
 
+/* Formularios */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -136,15 +158,25 @@ label {
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  color: var(--primary);
 }
 
 input, select {
   width: 100%;
-  padding: 9px 10px;
+  padding: 9px 11px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 7px;
   font-size: 0.95rem;
+  background: #ffffff;
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.18);
 }
 
 .form-actions {
@@ -152,26 +184,38 @@ input, select {
   gap: 8px;
 }
 
+/* Botones */
 .btn {
-  padding: 9px 14px;
+  padding: 9px 15px;
   border: none;
-  border-radius: 6px;
+  border-radius: 7px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.9rem;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn-sm {
-  padding: 5px 9px;
+  padding: 5px 10px;
   font-size: 0.8rem;
 }
 
-.btn-primary { background: var(--primary-light); color: #fff; }
-.btn-secondary { background: var(--muted); color: #fff; }
-.btn-success { background: var(--success); color: #fff; }
-.btn-warning { background: var(--warning); color: #fff; }
-.btn-danger { background: var(--danger); color: #fff; }
+.btn-primary { background: var(--primary); color: #ffffff; }
+.btn-primary:hover { background: var(--primary-hover); opacity: 1; }
+.btn-secondary { background: var(--muted); color: #ffffff; }
+.btn-success { background: var(--success); color: #ffffff; }
+.btn-warning { background: var(--warning); color: #ffffff; }
+.btn-danger { background: var(--danger); color: #ffffff; }
 
+/* Tablas */
 .table-wrap {
   overflow-x: auto;
 }
@@ -183,35 +227,42 @@ table {
 }
 
 th, td {
-  padding: 10px;
+  padding: 11px 10px;
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
 
 th {
-  background: var(--bg);
-  font-weight: 600;
+  background: #faf8f3;
+  color: var(--primary);
+  font-weight: 700;
 }
 
+tbody tr:hover {
+  background: #fcfbf8;
+}
+
+/* Etiquetas de estado */
 .badge {
   display: inline-block;
-  padding: 3px 8px;
-  border-radius: 12px;
+  padding: 4px 10px;
+  border-radius: 14px;
   font-size: 0.78rem;
   font-weight: 600;
 }
 
-.badge-ok { background: #dcfce7; color: var(--success); }
-.badge-busy { background: #fee2e2; color: var(--danger); }
-.badge-info { background: #e0f2fe; color: #0369a1; }
+.badge-ok { background: #ccfbf1; color: #115e59; }
+.badge-busy { background: #ffe4e6; color: #9f1239; }
+.badge-info { background: var(--accent-soft); color: #785a0a; }
 
+/* Alertas */
 .alerta {
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 16px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.alerta.ok { background: #dcfce7; color: #14532d; border: 1px solid #86efac; }
-.alerta.err { background: #fee2e2; color: #7f1d1d; border: 1px solid #fca5a5; }
+.alerta.ok { background: #ccfbf1; color: #134e4a; border: 1px solid #5eead4; }
+.alerta.err { background: #ffe4e6; color: #881337; border: 1px solid #fda4af; }
 .oculto { display: none !important; }

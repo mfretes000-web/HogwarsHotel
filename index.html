@@ -1,39 +1,222 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HogwartsHotel - Hotel Mauro</title>
-<style>
-body { font-family: Arial; background: #1a1a2e; color: white; text-align: center; margin: 0; padding: 20px; }
-h1 { color: #f9ca24; font-size: 40px; }
-.card { background: white; color: #333; max-width: 500px; margin: 20px auto; padding: 20px; border-radius: 15px; text-align: left; }
-.precio { font-size: 22px; font-weight: bold; color: #1a1a2e; }
-button { background: #f9ca24; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; }
-hr { border: 1px solid #eee; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Gestión Hotelera</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<h1>🏰 HogwartsHotel</h1>
-<p>Hotel Mauro - Bienvenido a la magia</p>
+  <header class="navbar">
+    <div class="container nav-content">
+      <div class="brand">
+        <h1>Hotel Management System</h1>
+        <span>Gestión integral de habitaciones, huéspedes y reservas</span>
+      </div>
+      <nav class="nav-links">
+        <button class="nav-btn active" data-section="inicio">Inicio</button>
+        <button class="nav-btn" data-section="reservas">Reservas</button>
+        <button class="nav-btn" data-section="habitaciones">Habitaciones</button>
+        <button class="nav-btn" data-section="huespedes">Huéspedes</button>
+      </nav>
+    </div>
+  </header>
 
-<div class="card">
-<h2>🛏️ Habitación Simple</h2>
-<p>Para 1 persona, con desayuno incluido</p>
-<p class="precio">Gs. 180.000 <span style="font-size:14px; font-weight:normal;">por noche</span></p>
-<button onclick="alert('¡Reserva mágica recibida!')">Reservar Simple</button>
-<hr>
-<h2>👩‍❤️‍👨 Habitación Doble</h2>
-<p>Para 2 personas, matrimonial, con desayuno</p>
-<p class="precio">Gs. 250.000 <span style="font-size:14px; font-weight:normal;">por noche</span></p>
-<button onclick="alert('¡Reserva mágica recibida!')">Reservar Doble</button>
-<hr>
-<h2>👑 Suite Hogwarts</h2>
-<p>La mejor, para 2 personas, jacuzzi + desayuno VIP</p>
-<p class="precio">Gs. 350.000 <span style="font-size:14px; font-weight:normal;">por noche</span></p>
-<button onclick="alert('¡Reserva mágica recibida!')">Reservar Suite</button>
-</div>
+  <main class="container">
+    <div id="alerta" class="alerta oculto"></div>
 
-<p>📍 Asunción, Paraguay</p>
+    <!-- SECCIÓN INICIO -->
+    <section id="sec-inicio" class="seccion activa">
+      <div class="hero card">
+        <h2>Bienvenido al Sistema de Gestión Hotelera</h2>
+        <p>
+          Esta plataforma permite administrar en tiempo real las habitaciones disponibles,
+          el registro de huéspedes, la creación de reservas y el control de check-out (marcar salida),
+          con persistencia en la nube mediante Supabase.
+        </p>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-num" id="stat-hab">0</span>
+            <span class="stat-label">Habitaciones totales</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stat-disp">0</span>
+            <span class="stat-label">Disponibles ahora</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stat-huesp">0</span>
+            <span class="stat-label">Huéspedes registrados</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stat-activas">0</span>
+            <span class="stat-label">Reservas activas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN RESERVAS -->
+    <section id="sec-reservas" class="seccion">
+      <div class="card">
+        <h2 id="titulo-form-res">Registrar Nueva Reserva</h2>
+        <form id="form-reserva" class="form-grid">
+          <input type="hidden" id="res-id" />
+          <div>
+            <label for="res-habitacion">Habitación *</label>
+            <select id="res-habitacion" required></select>
+          </div>
+          <div>
+            <label for="res-huesped">Huésped *</label>
+            <select id="res-huesped" required></select>
+          </div>
+          <div>
+            <label for="res-entrada">Fecha de entrada *</label>
+            <input type="date" id="res-entrada" required />
+          </div>
+          <div>
+            <label for="res-salida">Fecha de salida *</label>
+            <input type="date" id="res-salida" required />
+          </div>
+          <div id="grupo-res-estado" class="oculto">
+            <label for="res-estado">Estado</label>
+            <select id="res-estado">
+              <option value="Activa">Activa</option>
+              <option value="Finalizada">Finalizada</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="btn-guardar-res">Guardar Reserva</button>
+            <button type="button" class="btn btn-secondary oculto" id="btn-cancelar-res">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Listado de Reservas</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Habitación</th>
+                <th>Huésped</th>
+                <th>Entrada</th>
+                <th>Salida</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-reservas"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN HABITACIONES -->
+    <section id="sec-habitaciones" class="seccion">
+      <div class="card">
+        <h2 id="titulo-form-hab">Agregar Habitación</h2>
+        <form id="form-habitacion" class="form-grid">
+          <input type="hidden" id="hab-id" />
+          <div>
+            <label for="hab-numero">Número *</label>
+            <input type="text" id="hab-numero" placeholder="Ej: 103" required />
+          </div>
+          <div>
+            <label for="hab-tipo">Tipo *</label>
+            <select id="hab-tipo" required>
+              <option value="Simple">Simple</option>
+              <option value="Doble">Doble</option>
+              <option value="Suite">Suite</option>
+            </select>
+          </div>
+          <div>
+            <label for="hab-precio">Precio por noche (Gs.) *</label>
+            <input type="number" id="hab-precio" min="1" step="1000" placeholder="250000" required />
+          </div>
+          <div>
+            <label for="hab-estado">Estado *</label>
+            <select id="hab-estado" required>
+              <option value="Disponible">Disponible</option>
+              <option value="Ocupada">Ocupada</option>
+              <option value="Mantenimiento">Mantenimiento</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar Habitación</button>
+            <button type="button" class="btn btn-secondary oculto" id="btn-cancelar-hab">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Listado de Habitaciones</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Número</th>
+                <th>Tipo</th>
+                <th>Precio / Noche</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-habitaciones"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN HUÉSPEDES -->
+    <section id="sec-huespedes" class="seccion">
+      <div class="card">
+        <h2 id="titulo-form-hue">Registrar Huésped</h2>
+        <form id="form-huesped" class="form-grid">
+          <input type="hidden" id="hue-id" />
+          <div>
+            <label for="hue-nombre">Nombre completo *</label>
+            <input type="text" id="hue-nombre" placeholder="Ej: María Gómez" required />
+          </div>
+          <div>
+            <label for="hue-doc">Documento / C.I. *</label>
+            <input type="text" id="hue-doc" placeholder="Ej: 4567890" required />
+          </div>
+          <div>
+            <label for="hue-tel">Teléfono *</label>
+            <input type="text" id="hue-tel" placeholder="Ej: 0981 555 666" required />
+          </div>
+          <div>
+            <label for="hue-email">Correo electrónico</label>
+            <input type="email" id="hue-email" placeholder="correo@ejemplo.com" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar Huésped</button>
+            <button type="button" class="btn btn-secondary oculto" id="btn-cancelar-hue">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Listado de Huéspedes</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-huespedes"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
